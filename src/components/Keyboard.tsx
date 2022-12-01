@@ -1,6 +1,6 @@
 import React from "react";
-import { keyList } from "../keyList";
-import styles from "./Keyboard.module.css";
+import { keyList } from "../helpers/keyList";
+import classes from "./Keyboard.module.css";
 
 type KeyboardProps = {
   activeLetters: string[];
@@ -28,8 +28,8 @@ export const Keyboard = ({
       return (
         <button
           onClick={() => addGuessedLetter(key)}
-          className={`${styles.btn} ${isActive && styles.active} ${
-            isInactive && styles.inactive
+          className={`${classes.btn} ${isActive && classes.active} ${
+            isInactive && classes.inactive
           }`}
           disabled={isInactive || isActive || disabled}
           key={key}

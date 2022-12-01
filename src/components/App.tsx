@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { HangmanDrawing } from "./components/HangmanDrawing";
-import { HangmanWord } from "./components/HangmanWord";
-import { Keyboard } from "./components/Keyboard";
-import words from "./wordList.json";
+import { HangmanDrawing } from "./HangmanDrawing";
+import { HangmanWord } from "./HangmanWord";
+import { Keyboard } from "./Keyboard";
+import words from "../helpers/wordList.json";
 
 const getWord = () => words[Math.floor(Math.random() * words.length)];
 
-function App() {
+export const App = () => {
   const [wordToGuess, setWordToGuess] = useState(getWord);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectLetters = guessedLetters.filter(
     (letter) => !wordToGuess.includes(letter)
+  );
+
+  const activeLetters = guessedLetters.filter((letter) =>
+    wordToGuess.includes(letter)
   );
 
   const isLoser = incorrectLetters.length >= 6;
@@ -59,8 +63,6 @@ function App() {
     return () => document.removeEventListener("keypress", handler);
   });
 
-  console.log(wordToGuess);
-
   return (
     <div
       style={{
@@ -84,9 +86,7 @@ function App() {
       />
       <div style={{ alignSelf: "stretch" }}>
         <Keyboard
-          activeLetters={guessedLetters.filter((letter) =>
-            wordToGuess.includes(letter)
-          )}
+          activeLetters={activeLetters}
           inactiveLetters={incorrectLetters}
           addGuessedLetter={addGuessedLetter}
           disabled={isWinner || isLoser}
@@ -94,6 +94,4 @@ function App() {
       </div>
     </div>
   );
-}
-
-export default App;
+};
